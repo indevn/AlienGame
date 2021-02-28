@@ -21,8 +21,6 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets, stats, sb, a
         elif event.key == pygame.K_p:
             game_start(ai_settings, screen, stats, sb, ship, aliens, bullets)
 
-
-
 def check_keyup_events(event, ship):
     if event.type == pygame.KEYUP:
         if event.key == pygame.K_RIGHT:
@@ -83,6 +81,7 @@ def create_fleet(ai_settings, screen, ship, aliens):
     number_alien_x = get_number_aliens_x(ai_settings, alien.rect.width)
     number_alien_y = get_number_aliens_y(ai_settings, ship.rect.height, alien.rect.height)
     # int()丢弃了小数部分==向下圆整，确保有足够空间
+
 
     # 创建第一行外星人
     for row_number in range(number_alien_y):

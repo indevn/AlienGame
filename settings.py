@@ -2,24 +2,24 @@ class Settings():
     def __init__(self):
         """静态设置"""
         # basic settings
-        self.screen_width = 920
-        self.screen_height = 640
+        self.screen_width = 1024
+        self.screen_height = 768
         self.bg_color = (250,250,250)
 
         # bullet settings
-        self.bullet_width = 300
+        self.bullet_width = 1
         self.bullet_height = 15
         self.bullet_color = 60, 60, 60
-        self.bullets_allowed = 3  # 最大子弹数
+        self.bullets_allowed = 100  # 最大子弹数
 
         # alien settings
-        self.fleet_drop_speed = 100
+        self.fleet_drop_speed = 10
 
         # ship settings
         self.ship_limit = 3
 
         self.speedup_scale = 1 # 难度系数
-        self.score_scale = 1.5 # 奖励系数
+        self.score_scale = 2# 奖励系数
 
         self.initialize_dynamic_settings()
 
