@@ -1,8 +1,10 @@
 import sys
 import pygame
 from bullet import Bullet
-from alien import Alien
+from enemy import Enemy
 from time import sleep
+from game_sound import GameSound
+from pygame import mixer
 
 #########################################################################
 # 响应交互相关
@@ -10,10 +12,15 @@ from time import sleep
 
 def check_keydown_events(event, ai_settings, screen, ship, bullets, stats, sb, aliens):
     if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_RIGHT:
+        if event.key == pygame.K_d:
             ship.moving_right = True
-        elif event.key == pygame.K_LEFT:
+        elif event.key == pygame.K_a:
             ship.moving_left = True
+        elif event.key == pygame.K_w:
+            ship.moving_up = True
+        elif event.key == pygame.K_s:
+            ship.moving_down = True
+
         elif event.key == pygame.K_SPACE:
             fire_bullet(ai_settings, screen, ship, bullets)
         elif event.key == pygame.K_q:
@@ -23,10 +30,14 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets, stats, sb, a
 
 def check_keyup_events(event, ship):
     if event.type == pygame.KEYUP:
-        if event.key == pygame.K_RIGHT:
+        if event.key == pygame.K_d:
             ship.moving_right = False
-        elif event.key == pygame.K_LEFT:
+        elif event.key == pygame.K_a:
             ship.moving_left = False
+        if event.key == pygame.K_w:
+            ship.moving_up = False
+        elif event.key == pygame.K_s:
+            ship.moving_down = False
 
 
 def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets):
@@ -65,10 +76,27 @@ def game_start(ai_settings, screen, stats, sb, ship, aliens, bullets):
     create_fleet(ai_settings, screen, ship, aliens)
     ship.center_ship()
 
+    # bgm = GameSound(1)
+
+    # Starting the mixer
+    mixer.init()
+
+    # Loading the song
+    mixer.music.load("bgm.mp3")
+
+    # Setting the volume
+    mixer.music.set_volume(0.7)
+
+    # Start playing the song
+    mixer.music.play()
+
+
 def game_over(stats, ai_settings):
     stats.game_active = False
     pygame.mouse.set_visible(True)
     ai_settings.initialize_dynamic_settings()
+
+    mixer.music.stop()
 
 #########################################################################
 # 外星人群相关
@@ -77,7 +105,7 @@ def game_over(stats, ai_settings):
 def create_fleet(ai_settings, screen, ship, aliens):
     """创建外星人群"""
     # 创建一个外星人，并计算一行可容纳多少个外星人
-    alien = Alien(ai_settings, screen)
+    alien = Enemy(ai_settings, screen)
     number_alien_x = get_number_aliens_x(ai_settings, alien.rect.width)
     number_alien_y = get_number_aliens_y(ai_settings, ship.rect.height, alien.rect.height)
     # int()丢弃了小数部分==向下圆整，确保有足够空间
@@ -91,7 +119,7 @@ def create_fleet(ai_settings, screen, ship, aliens):
 
 
 def create_alien(ai_settings, screen, aliens, alien_number, row_number):
-    alien = Alien(ai_settings, screen)
+    alien = Enemy(ai_settings, screen)
     alien_width = alien.rect.width  # 外星人间距为外星人宽度
     alien.x = alien_width + 2 * alien_width * alien_number  # 外星人右边也要留出一定空白空间，所以需要乘以2
     alien.rect.x = alien.x
