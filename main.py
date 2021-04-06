@@ -23,17 +23,17 @@ def run_game():
     # 创建一艘飞船,一个用于存储子弹的编组,一个外星人群组
     ship = Ship(ai_settings, screen)
     bullets = Group()
-    aliens = Group()
+    enemies = Group()
 
-    gf.create_fleet(ai_settings, screen, ship, aliens)
+    gf.create_fleet(ai_settings, screen, ship, enemies)
 
     # begin the mainly loop
     while True:
-        gf.check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets)
+        gf.check_events(ai_settings, screen, stats, sb, play_button, ship, enemies, bullets)
         if stats.game_active:
             ship.update()
-            gf.update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets)
-            gf.update_aliens(ai_settings, stats, sb, screen, ship, aliens, bullets)
-        gf.update_screen(ai_settings, stats, sb, screen, ship, aliens, bullets, play_button)
+            gf.update_bullets(ai_settings, screen, stats, sb, ship, enemies, bullets)
+            gf.update_enemies(ai_settings, stats, sb, screen, ship, enemies, bullets)
+        gf.update_screen(ai_settings, stats, sb, screen, ship, enemies, bullets, play_button)
 
 run_game()

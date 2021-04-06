@@ -30,14 +30,14 @@ class Settings():
 
         self.fleet_direction = 1 # 1表示向右移动，-1表示向左移动
 
-        self.alien_points = 50
+        self.enemy_points = 50
 
     def update_level(self, stats, sb):
         self.ship_speed_factor *= self.speedup_scale
         self.bullet_speed_factor *= self.speedup_scale
         self.alien_speed_factor *= self.speedup_scale
 
-        self.alien_points = int(self.alien_points * self.score_scale)
+        self.enemy_points = int(self.enemy_points * self.score_scale)
 
         stats.level += 1
         sb.prep_level()
